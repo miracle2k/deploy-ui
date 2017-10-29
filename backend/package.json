@@ -1,0 +1,13 @@
+{
+  "name": "deploy-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "docker-registry-client": "^3.2.12",
+    "express": "^4.16.2",
+    "kubernetes-client": "^3.16.0",
+    "node-fetch": "^1.7.3"
+  },
+  "scripts": {}
+}
