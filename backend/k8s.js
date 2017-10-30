@@ -2,15 +2,24 @@
 
 const Api = require('kubernetes-client');
 
-// Notice the promises: true
-const extClient = new Api.Extensions(Api.config.fromKubeconfig());
-const coreClient = new Api.Core(Api.config.fromKubeconfig());
 
-// const client = new Api.Core({
-//   url: 'http://my-k8s-api-server.com',
-//   version: 'v1',  // Defaults to 'v1'
-//   promises: true,  // Enable promises
-//   namespace: 'my-project' // Defaults to 'default'
-// });
+let config;
+try {
+  config = Api.config.fromKubeconfig();
+  console.log('Loaded Kubernetes config from .kube/config')
+} catch(e) {
+  try {
+    config = Api.config.getInCluster();
+    console.log('Loaded Kubernetes config from cluster')
+  }
+  catch(e) {
+    console.log('ERROR: Could not find kubernetes config; exiting...')
+    process.exit(1)
+  }
+}
+
+// Notice the promises: true
+const extClient = new Api.Extensions(config);
+const coreClient = new Api.Core(config);
 
 module.exports = {extClient, coreClient};
