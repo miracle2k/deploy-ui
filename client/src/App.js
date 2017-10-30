@@ -17,6 +17,7 @@ class App extends Component {
         </header>
         <div className="App-content">
           <Deployment name="ordersys-website/ordersys-website" />
+          <Deployment name="emojigram/emojigram" />
         </div>
       </div>
       </IntlProvider>

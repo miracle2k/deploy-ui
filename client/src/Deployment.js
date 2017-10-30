@@ -1,6 +1,6 @@
 //@flow
 import React, {Component} from 'react';
-import {FormattedDate} from 'react-intl';
+import {FormattedDate, FormattedRelative} from 'react-intl';
 
 
 type Props = {
@@ -46,7 +46,8 @@ class Deployment extends Component<Props, State> {
           return <div key={image.tag} style={{background: isCurrent && 'silver'}}>
             <a href="#" onClick={(e) => this.handleDeploy(e, deployment.name, image.tag)}>{image.tag}</a>
             <span style={{color: 'gray'}}>
-              <FormattedDate value={new Date(image.timeUploadedMs)} /></span>
+              <FormattedDate value={new Date(image.timeUploadedMs)} />, <FormattedRelative value={new Date(image.timeUploadedMs)}/>
+            </span>
           </div>
         })}
       </div>
