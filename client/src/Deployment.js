@@ -1,22 +1,23 @@
 //@flow
 import React, {Component} from 'react';
 import {FormattedDate, FormattedRelative} from 'react-intl';
+import {fetch} from './utils';
 
 
 type Props = {
   // The kubernetes deployment we are dealing with
   deployment: string;
-}
+};
 
 
 type DockerImage = {
   name: string;
-}
+};
 
 
 type State = {
   deployment: any
-}
+};
 
 
 class Deployment extends Component<Props, State> {
@@ -26,12 +27,21 @@ class Deployment extends Component<Props, State> {
   }
 
   async componentWillMount() {
-    const response = await fetch(`${window.BACKEND_URL}/deployment/${this.props.name}`);
-    const data = await response.json();
-    this.setState({deployment: data.deployment})
+    try {
+      const response = await fetch(`${window.BACKEND_URL}/deployment/${this.props.name}`);
+      const data = await response.json();
+      this.setState({deployment: data.deployment})
+    }
+    catch(e) {
+      console.log(e);
+      this.setState({error: e})
+    }
   }
 
   render() {
+    if (this.state.error) {
+      return <div>Loading error occured</div>
+    };
     if (!this.state.deployment) {
       return null;
     }
@@ -41,6 +51,7 @@ class Deployment extends Component<Props, State> {
     return (
       <div className="Deployment">
         <h2>{this.props.name}</h2>
+
         {deployment.availableImages.map(image => {
           const isCurrent = image.tag == deployment.imageParts.tag;
           return <div key={image.tag} style={{background: isCurrent && 'silver'}}>

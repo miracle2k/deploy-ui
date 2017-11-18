@@ -18,6 +18,7 @@ class App extends Component {
         <div className="App-content">
           <Deployment name="ordersys-website/ordersys-website" />
           <Deployment name="emojigram/emojigram" />
+          <Deployment name="kube-system/deploy-ui" />
         </div>
       </div>
       </IntlProvider>
