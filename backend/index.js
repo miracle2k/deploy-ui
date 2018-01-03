@@ -51,7 +51,7 @@ app.post('/api/deployment/*', async (req, res) => {
     }
   }, function(err, success) {
     if (err) {
-      console.log(err)
+      console.log('error querying kubernetes', err)
       res.json({error: ""+err});
     } else {
       res.json({deployment: {
