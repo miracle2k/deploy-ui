@@ -4,10 +4,19 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.2",
-    "docker-registry-client": "^3.2.12",
+    "bunyan": "^1.8.12",
+    "docker-registry-client": "^3.3.0",
     "express": "^4.16.2",
-    "kubernetes-client": "^3.16.0",
-    "node-fetch": "^1.7.3"
+    "kubernetes-client": "^8.3.6",
+    "node-fetch": "^1.7.3",
+    "prettier": "^1.19.1"
   },
-  "scripts": {}
+  "scripts": {
+    "start": " nodemon --watch '*.ts' --watch '*.js' --exec ts-node index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
 }
