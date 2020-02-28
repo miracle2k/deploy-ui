@@ -1,4 +1,5 @@
-const express = require("express");
+import express from 'express';
+import {Request, Response} from 'express';
 const path = require("path");
 const bodyParser = require("body-parser");
 const { client } = require("./k8s");
@@ -11,34 +12,36 @@ app.use(bodyParser.json());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "/../client/build")));
 
-function parseResource(resource) {
+
+function parseResource(resource: string) {
   const [nsName, resourceName] = resource.split("/");
   return { namespace: nsName, resource: resourceName };
 }
 
-function patchDockerUrl(url, changes) {
+
+function patchDockerUrl(url: string, changes: any) {
   const parts = parseDockerUrl(url);
   const newParts = Object.assign({}, parts, changes);
   const { registry, namespace, repository, tag } = newParts;
   return `${registry}/${namespace}/${repository}:${tag}`;
 }
 
-app.post("/api/deployment/*", async (req, res) => {
+app.post("/api/deployment/*", async (req: Request, res: Response) => {
   const { namespace, resource } = parseResource(req.params[0]);
   const newTag = req.body.tag;
   const name = req.body.name;
 
-  const deployment = await extClient
-    .ns(namespace)
+  const deployment = await client.apis.apps.v1
+    .namespaces(namespace)
     .deployments(resource)
-    .getPromise();
+    .get();
   const newImage = patchDockerUrl(
     deployment.spec.template.spec.containers[0].image,
     { tag: newTag }
   );
 
-  extClient
-    .ns(namespace)
+  client.apis.apps.v1
+    .namespaces(namespace)
     .deployments(resource)
     .patch(
       {
@@ -57,7 +60,7 @@ app.post("/api/deployment/*", async (req, res) => {
           }
         }
       },
-      function(err, success) {
+      function(err: any, success: any) {
         if (err) {
           console.log("error querying kubernetes", err);
           res.json({ error: "" + err });
@@ -74,7 +77,7 @@ app.post("/api/deployment/*", async (req, res) => {
 });
 
 
-app.get("/api/deployment/*", async (req, res) => {
+app.get("/api/deployment/*", async (req: Request, res: Response) => {
   const name = req.params[0];
 
   const { namespace: nsName, resource: deploymentName } = parseResource(name);
@@ -86,7 +89,7 @@ app.get("/api/deployment/*", async (req, res) => {
   deployment = deployment.body;
   const containers = deployment.spec.template.spec.containers;
 
-  let dockercfg;
+  let dockercfg: any;
   if (deployment.spec.template.spec.imagePullSecrets) {
     const secrets = deployment.spec.template.spec.imagePullSecrets;
     // Get the secret
@@ -100,7 +103,7 @@ app.get("/api/deployment/*", async (req, res) => {
   }
 
   const containerData = await Promise.all(
-    containers.map(async container => {
+    containers.map(async (container: any) => {
       return {
         name: container.name,
         image: container.image,
@@ -119,7 +122,7 @@ app.get("/api/deployment/*", async (req, res) => {
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get("*", (req, res) => {
+app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname + "/../client/build/index.html"));
 });
 

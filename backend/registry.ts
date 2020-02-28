@@ -11,7 +11,7 @@ class Client {
     const { registry } = parseDockerUrl(repo);
 
     // This is the new format.
-    if ('auths' in dockercfg) {
+    if (dockercfg.auths) {
       dockercfg = dockercfg['auths']
     }
 
@@ -63,6 +63,7 @@ module.exports.getAvailableImages = async function getAvailableImages(
     dockercfg
   );
   const tagList = await client.getTags();
+  console.log(tagList);
 
   // console.log(await client.getManifest(tagList[0]));
 
