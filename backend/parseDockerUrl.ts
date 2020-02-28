@@ -1,14 +1,18 @@
-type DockerUrl = {
+export type DockerUrl = {
   // hub.docker.com
   registry: string|null,
   // elsdoerfer
   namespace: string|null
   // k8s-snapshots
-  repository: string,
+  image: string,
   // latest
   tag: string|null,
 
+  // elsdoerfer/repository
+  repository: string,
+  // hub.docker.com/elsdoerfer/repository
   name: string,
+  // hub.docker.com/elsdoerfer/repository:latest
   fullname: string,
 }
 
@@ -23,7 +27,7 @@ export default function(image: string): DockerUrl {
 
   var registry = match[1];
   var namespace = match[2];
-  var repository = match[3];
+  var image = match[3];
   var tag = match[4];
 
   if (!namespace && registry && !/[:.]/.test(registry)) {
@@ -32,27 +36,29 @@ export default function(image: string): DockerUrl {
   }
 
 
-  let name = buildFull({registry, namespace, repository, tag});
-  let fullname = buildFull({registry, namespace, repository});
+  let repository = buildFull({namespace, image});
+  let name = buildFull({registry, namespace, image, tag});
+  let fullname = buildFull({registry, namespace, image});
 
   return {
     registry,
     namespace,
-    repository,
+    image,
     tag,
     name,
-    fullname
+    fullname,
+    repository
   };
 };
 
 
-export function buildFull(opts: {repository: string, registry: string, namespace: string, tag?: string}): string {
-  let {registry, namespace, tag, repository} = opts;
+export function buildFull(opts: {image: string, registry?: string, namespace: string, tag?: string}): string {
+  let {registry, namespace, tag, image} = opts;
 
   registry = registry ? registry + "/" : "";
   namespace = namespace && namespace !== "library" ? namespace + "/" : "";
   tag = tag && tag !== "latest" ? ":" + tag : "";
 
-  let name = registry + namespace + repository + tag;
+  let name = registry + namespace + image + tag;
   return name;
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {IntlProvider} from 'react-intl';
-import logo from './logo.svg';
 import './App.css';
 import Deployment from './Deployment';
 

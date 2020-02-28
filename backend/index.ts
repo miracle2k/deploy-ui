@@ -1,9 +1,10 @@
+// @ts-ignore
 import express from 'express';
 import {Request, Response} from 'express';
 const path = require("path");
 const bodyParser = require("body-parser");
 const { client } = require("./k8s");
-const { getAvailableImages } = require("./registry");
+import { getAvailableImages } from "./registry";
 const parseDockerUrl = require("./parseDockerUrl").default;
 
 const app = express();

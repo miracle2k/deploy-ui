@@ -1,5 +1,5 @@
-//@flow
-import React, {Component} from 'react';
+import {Component} from 'react';
+import * as React from 'react';
 import {FormattedDate, FormattedRelativeTime} from 'react-intl';
 import {fetch} from './utils';
 
@@ -7,28 +7,25 @@ import {fetch} from './utils';
 type Props = {
   // The kubernetes deployment we are dealing with
   deployment: string;
-};
-
-
-type DockerImage = {
   name: string;
 };
 
 
 type State = {
-  deployment: any
+  deployment: any,
+  error?: any
 };
 
 
 class Deployment extends Component<Props, State> {
 
-  state = {
+  state: State = {
     deployment: null
-  }
+  };
 
   async componentWillMount() {
     try {
-      const response = await fetch(`${window.BACKEND_URL}/deployment/${this.props.name}`);
+      const response = await fetch(`${(window as any).BACKEND_URL}/deployment/${this.props.name}`);
       const data = await response.json();
       this.setState({deployment: data.deployment})
     }
@@ -52,12 +49,12 @@ class Deployment extends Component<Props, State> {
       <div className="Deployment">
         <h2>{this.props.name}</h2>
 
-        {deployment.availableImages.map(image => {
+        {deployment.availableImages.map((image: any) => {
           const isCurrent = image.tag == deployment.imageParts.tag;
-          return <div key={image.tag} style={{background: isCurrent && 'silver'}}>
+          return <div key={image.tag} style={{background: isCurrent ? 'silver' : undefined}}>
             <a href="#" onClick={(e) => this.handleDeploy(e, deployment.name, image.tag)}>{image.tag}</a>
             <span style={{color: 'gray'}}>
-              <FormattedDate value={new Date(image.timeUploadedMs)} />, <FormattedRelativeTime value={new Date(image.timeUploadedMs)}/>
+              <FormattedDate value={new Date(image.created)} />
             </span>
           </div>
         })}
@@ -65,10 +62,10 @@ class Deployment extends Component<Props, State> {
     );
   }
 
-  handleDeploy = async (e, containerName, newTag) => {
+  handleDeploy = async (e: any, containerName: string, newTag: string) => {
     e.preventDefault();
 
-    const response = await fetch(`${window.BACKEND_URL}/deployment/${this.props.name}`, {
+    const response = await fetch(`${(window as any).BACKEND_URL}/deployment/${this.props.name}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
