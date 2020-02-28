@@ -159,11 +159,12 @@ export const getAvailableImages = async function getAvailableImages(
   });
 
   // Sort by date
-  // let tags = Object.values(allTags);
-  // tags = tags.sort((a, b) => {
-  //   return b.timeUploadedMs - a.timeUploadedMs;
-  // });
-  return Object.values(allTags);
+  let tags = Object.values(allTags);
+  tags = tags.sort((a, b) => {
+    // @ts-ignore
+    return new Date(b.created) - new Date(a.created);
+  });
+  return tags;
 };
 
 

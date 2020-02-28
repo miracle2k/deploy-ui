@@ -6,7 +6,9 @@ const GROUPS: {[key: string]: string[]} = {
       'emojigram/emojigram'
   ],
   'languagetool': [
-    'languagetool/farsi-school'
+    'languagetool/farsi-school',
+    'languagetool/dbserver',
+    'languagetool/market',
   ],
   'deploy-ui': [
     'kube-system/deploy-ui'

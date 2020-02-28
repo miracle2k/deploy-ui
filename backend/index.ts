@@ -23,8 +23,8 @@ function parseResource(resource: string) {
 function patchDockerUrl(url: string, changes: any) {
   const parts = parseDockerUrl(url);
   const newParts = Object.assign({}, parts, changes);
-  const { registry, namespace, repository, tag } = newParts;
-  return `${registry}/${namespace}/${repository}:${tag}`;
+  const { registry, namespace, image, tag } = newParts;
+  return `${registry}/${namespace}/${image}:${tag}`;
 }
 
 app.post("/api/deployment/*", async (req: Request, res: Response) => {
@@ -36,8 +36,9 @@ app.post("/api/deployment/*", async (req: Request, res: Response) => {
     .namespaces(namespace)
     .deployments(resource)
     .get();
+
   const newImage = patchDockerUrl(
-    deployment.spec.template.spec.containers[0].image,
+    deployment.body.spec.template.spec.containers[0].image,
     { tag: newTag }
   );
 
