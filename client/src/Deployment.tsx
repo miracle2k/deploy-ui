@@ -6,7 +6,6 @@ import {fetch} from './utils';
 
 type Props = {
   // The kubernetes deployment we are dealing with
-  deployment: string;
   name: string;
 };
 
@@ -17,7 +16,7 @@ type State = {
 };
 
 
-class Deployment extends Component<Props, State> {
+export class Deployment extends Component<Props, State> {
 
   state: State = {
     deployment: null
@@ -79,5 +78,3 @@ class Deployment extends Component<Props, State> {
     alert(JSON.stringify(data));
   }
 }
-
-export default Deployment;
