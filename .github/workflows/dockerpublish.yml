@@ -33,24 +33,31 @@ jobs:
       - name: Build image
         run: docker build . --file Dockerfile --tag image
 
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: elsdoerfer/depoy-ui
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push image
-        run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+      # - name: Log into registry
+      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin        
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+      # - name: Push image
+      #   run: |
+      #     IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
 
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+      #     # Strip git ref prefix from version
+      #     VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
+      #     # Strip "v" prefix from tag name
+      #     [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
+      #     # Use Docker `latest` tag convention
+      #     [ "$VERSION" == "master" ] && VERSION=latest
 
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+      #     echo IMAGE_ID=$IMAGE_ID
+      #     echo VERSION=$VERSION
+
+      #     docker tag image $IMAGE_ID:$VERSION
+      #     docker push $IMAGE_ID:$VERSION
