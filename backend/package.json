@@ -12,7 +12,8 @@
     "www-authenticate": "^0.6.2"
   },
   "scripts": {
-    "start": " nodemon --watch '*.ts' --watch '*.js' --exec ts-node index.ts"
+    "start": "nodemon --watch '*.ts' --watch '*.js' --exec ts-node index.ts",
+    "start:prod": "ts-node index.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
