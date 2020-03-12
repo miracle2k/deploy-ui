@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: elsdoerfer/deploy-ui
+  IMAGE_NAME: deploy-ui
 
 jobs:
   # Push image to GitHub Packages.
