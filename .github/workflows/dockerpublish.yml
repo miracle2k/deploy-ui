@@ -30,8 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag image
+      # - name: Build image
+      #   run: docker build . --file Dockerfile --tag image
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
