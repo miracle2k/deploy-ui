@@ -1,11 +1,16 @@
 Development
 -----------
 
+Run the frontend and backend separately:
+
     $ cd client && yarn run start
     $ cd backend && yarn run start
 
-Current Status: Not Deployed (in up-to-date version).
-Only local usage possible.
+
+Deployment
+----------
+
+Builds via Github Actions. A single container is built. The backend is also serving the JS files.
 
 
 Work directly with the Registry API
