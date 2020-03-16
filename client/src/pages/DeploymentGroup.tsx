@@ -13,6 +13,10 @@ const GROUPS: {[key: string]: string[]} = {
   'deploy-ui': [
     'kube-system/deploy-ui'
   ],
+  'feedbackwidget': [
+    'feedbackwidget/app',
+    'feedbackwidget/bot',
+  ],
 };
 
 
