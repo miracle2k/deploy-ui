@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const { client } = require("./k8s");
 import { getAvailableImages } from "./registry";
 const parseDockerUrl = require("./parseDockerUrl").default;
+import {buildFull} from './parseDockerUrl';
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,7 +26,7 @@ function patchDockerUrl(url: string, changes: any) {
   const parts = parseDockerUrl(url);
   const newParts = Object.assign({}, parts, changes);
   const { registry, namespace, image, tag } = newParts;
-  return `${registry}/${namespace}/${image}:${tag}`;
+  return buildFull({registry, namespace, image, tag});  
 }
 
 app.post("/api/deployment/*", async (req: Request, res: Response) => {
