@@ -1,7 +1,7 @@
 import React from "react";
 import {Deployment} from "../Deployment";
 
-const GROUPS: {[key: string]: string[]} = {
+export const GROUPS: {[key: string]: string[]} = {
   'emojigram': [
       'emojigram/emojigram'
   ],
