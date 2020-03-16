@@ -6,6 +6,8 @@ ENV NPM_CONFIG_LOGLEVEL warn
 #RUN npm install -g serve
 #CMD serve -s build
 
+WORKDIR /app
+
 # Install all dependencies of the current project.
 COPY client/package.json client/package.json
 RUN cd client && yarn
@@ -17,6 +19,6 @@ RUN cd backend && yarn
 COPY backend backend
 
 
-WORKDIR backend
+WORKDIR /app/backend
 CMD yarn run start:prod
 EXPOSE 5000
