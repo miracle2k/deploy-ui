@@ -7,6 +7,7 @@ export const GROUPS: {[key: string]: string[]} = {
   ],
   'languagetool': [
     'languagetool/farsi-school',
+    'languagetool/farsi-dictionary',
     'languagetool/dbserver',
     'languagetool/market',
   ],
