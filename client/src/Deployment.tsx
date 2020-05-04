@@ -48,7 +48,7 @@ export class Deployment extends Component<Props, State> {
       <div className="Deployment">
         <h2>{this.props.name}</h2>
 
-        {deployment.availableImages.map((image: any) => {
+        {deployment.availableImages.slice(15).map((image: any) => {
           const isCurrent = image.tag == deployment.imageParts.tag;
           return <div key={image.tag} style={{background: isCurrent ? 'silver' : undefined}}>
             <a href="#" onClick={(e) => this.handleDeploy(e, deployment.name, image.tag)}>{image.tag}</a>

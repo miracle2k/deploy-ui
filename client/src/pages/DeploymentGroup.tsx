@@ -10,6 +10,10 @@ export const GROUPS: {[key: string]: string[]} = {
     'languagetool/farsi-dictionary',
     'languagetool/dbserver',
     'languagetool/market',
+    'languagetool/languagetool-editor',
+    'languagetool/editor',
+    'languagetool/market-admin',
+    'languagetool/words-admin',
   ],
   'deploy-ui': [
     'kube-system/deploy-ui'
