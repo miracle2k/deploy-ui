@@ -24,7 +24,7 @@ export class Deployment extends Component<Props, State> {
 
   async componentWillMount() {
     try {
-      const response = await fetch(`${(window as any).BACKEND_URL}/deployment/${this.props.name}`);
+      const response = await fetch(`${(window as any).BACKEND_URL}/deployment/${this.props.name}`, {headers: {'content-type': 'application/json'}});
       const data = await response.json();
       this.setState({deployment: data.deployment})
     }
@@ -48,7 +48,7 @@ export class Deployment extends Component<Props, State> {
       <div className="Deployment">
         <h2>{this.props.name}</h2>
 
-        {deployment.availableImages.slice(15).map((image: any) => {
+        {deployment.availableImages.map((image: any) => {
           const isCurrent = image.tag == deployment.imageParts.tag;
           return <div key={image.tag} style={{background: isCurrent ? 'silver' : undefined}}>
             <a href="#" onClick={(e) => this.handleDeploy(e, deployment.name, image.tag)}>{image.tag}</a>
