@@ -140,13 +140,18 @@ export const getAvailableImages = async function getAvailableImages(
     fullname,
     dockercfg
   );
-  const tagList = (await client.getTags());
 
+  // NB: This list is ordered alphabetically, so we don't know which one is newest without getting the manifest.
+  // We should store the manifest lookup in a database somewhere, a cache, or even just a local file cache, to 
+  // speed up future loading.
+  let tagList = (await client.getTags())
+
+  // Only the manifest has the "created" timestamp
   const manifests = await Promise.all(tagList.map(async tag => {
     const manifest = await client.getManifest(tag);
     const digest = manifest.config.digest;
     return await client.getBlob(digest);
-  }));
+  }));  
 
   const allTags: any = {};
   Object.values(tagList).forEach((tag, idx) => {
