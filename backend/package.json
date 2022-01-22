@@ -7,7 +7,7 @@
     "bunyan": "^1.8.12",
     "express": "^4.16.2",
     "kubernetes-client": "^8.3.6",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "prettier": "^1.19.1",
     "www-authenticate": "^0.6.2"
   },
